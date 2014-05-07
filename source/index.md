@@ -1,13 +1,11 @@
 ---
-title: API Reference
+title: The Unloq API
 
 language_tabs:
   - shell
-  - ruby
-  - python
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='http://unloq.co'>Sign Up for an Unloq Account</a>
   - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -18,11 +16,53 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Unloq documentation, here you can see which RESTful endpoints
+exist, what they do and what they expect and respond to.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We currently only have language bindings in Curl (or "shell") and
+would LOVE for you to develop client libaries which we will happily
+host here in these very docs for all to see.
+
+In the documentation below, we'll cover the key pieces (Events and
+Achievements) of our system and provide you with real world examples
+in each section.
+
+Remember, if you have any questions about modeling events, don't
+hesitate to reach out to us via email - it's always on...always!
 
 This example API documentation page was created with [Slate](http://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+
+# Overview
+
+Unloq is based on a concept of receiving Events in order to "unlock"
+or achieve - which ever you prefer, Achievements for points in a form
+of competition between authors.
+
+Authors are generally just your users and generally have an identifier
+to determine which user is which in a given system. Similarly, these
+authors perform actions on objects in systems (yours, in fact) and we
+refer to those objects as Recipients. For example, if your system were
+a blog, you may have a User and that User may have Posts. Both the
+User and a Post have that identification which makes them unique in
+your system (generally your primary key). When a User creates a Post
+this is a relatable event within your system that has a lot of
+meaning.
+
+In Unloq, you simply define the parameters of what occurred in that
+event so that you might gain insight through intentional context
+(think meta information) when Users (or any object in your system for
+that matter) perform actions (we call them Verbs) on other objects
+(Recipients). And of course, there is nothing which says an Author
+can't act upon itself. Some clients prefer to count a User logging in
+as an action on themselves. The parameters of this Event would be that
+the author "User 14" "login" "User 14" - or more readably to a human:
+User 14 logged in.
+
+The simplicity of our system is often one which is misunderstood at
+first, but once the modeling of events becomes familiar, you'll
+quickly see all sorts of context that's going on in your applications
+and systems which can provide all sorts of great insight.
+
 
 # Authentication
 
@@ -165,4 +205,3 @@ This endpoint retrieves a specific kitten.
 Parameter | Description
 --------- | -----------
 ID | The ID of the cat to retrieve
-
