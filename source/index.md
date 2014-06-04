@@ -5,11 +5,8 @@ language_tabs:
   - shell
 
 toc_footers:
-  - <a href='http://unloq.co'>Sign Up for an Unloq Account</a>
+  - <a href='http://unloq.co'>Unloq</a>
   - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
 
 search: true
 ---
@@ -66,142 +63,125 @@ and systems which can provide all sorts of great insight.
 
 # Authentication
 
-> To authorize, use this code:
+Unloq uses API keys to allow access to the API. Your API key should be used with the same care and privacy with which you treat your own systems passwords.
 
-```ruby
-require 'kittn'
+Unloq expects for the API key to be included in all API requests to the server in either the JSON body OR as part of the URI.
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+# Achievements
+
+Achievements are actionable/unlockable actors which are realized by a single, or stream of Events. They, much like Events, are made up of a set of predicates. If the predicates "match" then the Achievement becomes unlocked.
+
+## Create An Achievement
+```shell
+curl http://unloq.co/achievements -X POST -H 'Content-Type: application/json' \
+--data-binary '{
+  "api_key":"YOUR_API_KEY",
+  "namespace":"your-namespace",
+  "name":"Achievement Name",
+  "author_type":"Authoring Type",
+  "verb":"Verb",
+  "recipient_type":"Recipient Type",
+  "recipient_id": "Recipient ID",
+  "observations":1,
+  "points": 10.0,
+  "start_at":null,
+  "end_at":null,
+  "image_path":"http://my-img-host.com/badge_image.png"
+}' -v
 ```
 
-```python
-import 'kittn'
+To create an Achievement, submit a POST request to the /achievements resource as seen in the example to our right:
 
-api = Kittn.authorize('meowmeowmeow')
-```
+### JSON Request Attributes
+
+Attribute | Required | Description
+:-------------|:-------------:| :-------------
+api_key | true | the api key you were provided from unloq. This should be treated as private (just like a password).
+namespace | true | the environment in which the event took place.
+author_type | true | the type or classification of the acting author.
+author_id | false | the id of the acting author performing the action (verb). Used only if a SPECIFIC author should get an achievement.
+verb | true | what the author "did" to a recipient
+recipient_type| false  | the type or classification of the acting recipient.
+recipient_id | false | the id of the actor being acted on (could be the same as the author_id/type). Used only if a SPECIFIC recipient should match the event.
+
+
+
+
+
+## Get All Namespace Achievements
+
+>Get All Namespace Achievements
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace `meowmeowmeow` with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import 'kittn'
-
-api = Kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Isis",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import 'kittn'
-
-api = Kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/3"
-  -H "Authorization: meowmeowmeow"
+curl "http://unloq.co/achievements/[:api_key]/[:namespace]"
+  -H "Content-Type: application/json"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Isis",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "achievements": [
+    {
+    "id": "b32c8f3b-d555-4f9b-a4f2-734f6f50bed9",
+    "api_key": "[:api_key]",
+    "namespace":"[:namespace]",
+    "name":"[:name]",
+    "author_type":"[:author_type]",
+    "verb":"[:verb]",
+    "recipient_type":"[:recipient_type]",
+    "recipient_id": "[:recipient_id]",
+    "start_at": null,
+    "image_path":"http://my-img-host.com/badge_image.png",
+    "end_at": null,
+    "observations": 1,
+    "points": 10.0
+    }
+    ],
+"points": null
+}
+
+```
+`GET http://unloq.co/achievements/[:api_key]/[:namespace]`
+
+Some text about how you use this.
+
+## Get A Users/Authors Achievements
+
+>Get A Users/Authors Achievements
+
+```shell
+curl "http://unloq.co/achievements/[:api_key]/[:namespace]/[:author_type]/[:author_id]"
+  -H "Content-Type: application/json"
+```
+
+> The above command returns JSON structured like this, if, perhaps your Author (User) had 50.0 points
+> Notice the difference between querying achievements for the entire namespace returns points: null
+> This is because there is no Author in context and therefore, no points associated.
+
+```json
+{
+    "achievements": [
+    {
+    "id": "b32c8f3b-d555-4f9b-a4f2-734f6f50bed9",
+    "api_key": "[:api_key]",
+    "namespace":"[:namespace]",
+    "name":"[:name]",
+    "author_type":"[:author_type]",
+    "verb":"[:verb]",
+    "recipient_type":"[:recipient_type]",
+    "recipient_id": "[:recipient_id]",
+    "start_at": null,
+    "image_path":"http://my-img-host.com/badge_image.png",
+    "end_at": null,
+    "observations": 1,
+    "points": 10.0
+    }
+    ],
+"points": 50.0
 }
 ```
 
-This endpoint retrieves a specific kitten.
+`GET http://unloq.co/achievements/[:api_key]/[:namespace]/[:author_type]/[:author_id]`
 
-<aside class="warning">If you're not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the cat to retrieve
+Some text about how you use this.
