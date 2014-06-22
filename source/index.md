@@ -5,8 +5,12 @@ language_tabs:
   - shell
 
 toc_footers:
+
   - <a href='http://unloq.co'>Unloq</a>
   - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
+
+includes:
+#  - errors
 
 search: true
 ---
@@ -104,10 +108,6 @@ verb | true | what the author "did" to a recipient
 recipient_type| false  | the type or classification of the acting recipient.
 recipient_id | false | the id of the actor being acted on (could be the same as the author_id/type). Used only if a SPECIFIC recipient should match the event.
 
-
-
-
-
 ## Get All Namespace Achievements
 
 >Get All Namespace Achievements
@@ -144,7 +144,6 @@ curl "http://unloq.co/achievements/[:api_key]/[:namespace]"
 ```
 `GET http://unloq.co/achievements/[:api_key]/[:namespace]`
 
-Some text about how you use this.
 
 ## Get A Users/Authors Achievements
 
@@ -183,5 +182,3 @@ curl "http://unloq.co/achievements/[:api_key]/[:namespace]/[:author_type]/[:auth
 ```
 
 `GET http://unloq.co/achievements/[:api_key]/[:namespace]/[:author_type]/[:author_id]`
-
-Some text about how you use this.
